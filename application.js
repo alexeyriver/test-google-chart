@@ -23,8 +23,6 @@ sessionCheckbox.addEventListener("change", (e) => {
 // };
 // item.setProperty('something', 'Hello world!');
 
-
-
 google.charts.load("current", { packages: ["line", "corechart"] });
 google.charts.setOnLoadCallback(drawChart);
 
@@ -60,19 +58,24 @@ function drawChart() {
   };
 
   if (conversionStatus && !sessionStatus) {
-    console.log("hi");
-    data.addRows([
-      [new Date(2021, 0, 10), null, 5.7],
-      [new Date(2021, 0, 20), null, 8.7],
-      [new Date(2021, 0, 30), null, 12],
-    ]);
+    let array = item.metrics.conversions.map((elements) => {
+      let arr = [];
+      elements.map((el, i) => {
+        if (i == 1) {
+          arr.push(null);
+        }
+        arr.push(el);
+      });
+      return arr;
+    });
+    data.addRows(array)
   } else if (sessionStatus && !conversionStatus) {
     data.addRows([
       [new Date(2021, 0, 10), 10.5, null],
       [new Date(2021, 0, 20), 8.7, null],
       [new Date(2021, 0, 30), 12, null],
     ]);
-  } else if(conversionStatus && sessionStatus) {
+  } else if (conversionStatus && sessionStatus) {
     data.addRows([
       [new Date(2021, 0, 10), 20, 25],
       [new Date(2021, 0, 20), 16, 15],
