@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script defer src="./application.js"></script>
-  <title>Charts</title>
-</head>
-<body>
-  Google charts
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+    <script defer src="./seeder.js"></script>
+    <script defer src="./applicationhelper.js"></script>
+ <script defer src="./application.js"></script>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <title>Charts</title>
+  </head>
+  <body>
+    Google charts
+    <div id="select-search"></div>
+    <div id="product-info"></div>
+    <input type="checkbox" id="conversion" name="conversion" /> Conversion rate
+    <input type="checkbox" id="session" name="session" /> Sessions
+    <div id="chart_div"></div>
+  </body>
 </html>
