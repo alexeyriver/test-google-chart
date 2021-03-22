@@ -12,17 +12,6 @@ sessionCheckbox.addEventListener("change", (e) => {
   google.charts.setOnLoadCallback(drawChart);
 });
 
-// item.setProperty = function(property, value) {
-//   if (typeof(item.onChange) === 'function') {
-//     item.onChange(property, item[property], value);
-//   }
-//   item[property] = value;
-// };
-// item.onChange = function(property, oldValue, newValue) {
-//   alert(property + ' changed from ' + oldValue + ' to ' + newValue);
-// };
-// item.setProperty('something', 'Hello world!');
-
 google.charts.load("current", { packages: ["line", "corechart"] });
 google.charts.setOnLoadCallback(drawChart);
 
@@ -59,6 +48,13 @@ function drawChart() {
 
   if (conversionStatus && !sessionStatus) {
     let array = item.metrics.conversions.map((elements) => {
+      elements.push(null);
+      return elements;
+    });
+    console.log(array);
+    data.addRows(array);
+  } else if (sessionStatus && !conversionStatus) {
+    let array = item.metrics.sessions.map((elements) => {
       let arr = [];
       elements.map((el, i) => {
         if (i == 1) {
@@ -68,24 +64,35 @@ function drawChart() {
       });
       return arr;
     });
-    data.addRows(array)
-  } else if (sessionStatus && !conversionStatus) {
-    data.addRows([
-      [new Date(2021, 0, 10), 10.5, null],
-      [new Date(2021, 0, 20), 8.7, null],
-      [new Date(2021, 0, 30), 12, null],
-    ]);
+    data.addRows(array);
   } else if (conversionStatus && sessionStatus) {
-    data.addRows([
-      [new Date(2021, 0, 10), 20, 25],
-      [new Date(2021, 0, 20), 16, 15],
-      [new Date(2021, 0, 30), 10, 9],
-    ]);
+    let array = [];
+    for (let i = 0; i < item.metrics.conversions.length; i++) {
+      let newArr = [];
+      newArr.push(item.metrics.conversions[i][0]);
+      newArr.push(item.metrics.conversions[i][1]);
+      newArr.push(item.metrics.sessions[i][1]);
+      array.push(newArr);
+    }
+    data.addRows(array);
   }
+
+  var data2 = google.visualization.arrayToDataTable([
+    ['date', 'number'],
+    [ new Date(2021, 0, 30),      12],
+    [ new Date(2021, 0, 30),      5.5],
+    [ new Date(2021, 0, 30),     14],
+    [ new Date(2021, 0, 30),      5],
+   
+  ]);
+
+
 
   function drawMaterialChart() {
     var materialChart = new google.charts.Line(chartDiv);
     materialChart.draw(data, materialOptions);
+  //   var chart = new google.visualization.ComboChart(chartDiv)
+  //  chart.draw(data2, materialOptions);
   }
 
   drawMaterialChart();
